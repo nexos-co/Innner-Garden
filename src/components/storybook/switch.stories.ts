@@ -1,7 +1,6 @@
-// src/components/ui/Switch.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { fn } from 'storybook/test';
-import { Switch } from "." // Import switchVariants
+import { Switch } from "." 
 
 const meta: Meta<typeof Switch> = {
   title: "UI/Switch",
@@ -17,7 +16,7 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default = {
-  args: {
+  args: { 
     checked: false,
     variant: "default",
   },
@@ -60,7 +59,7 @@ export const SuccessVariantUnchecked = {
 
 export const Destructive = {
   args: {
-    checked: true,
+    checked: false,
     variant: "destructive",
   },
 }

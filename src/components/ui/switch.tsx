@@ -17,7 +17,7 @@ const switchVariants = cva(
         success:
           "data-[state=checked]:bg-success data-[state=unchecked]:bg-success/40",
         destructive:
-          "data-[state=checked]:bg-red-500 data-[state=unchecked]:bg-gray-300",
+          "data-[state=checked]:bg-red-700 data-[state=unchecked]:bg-red-400",
       },
       size: {
         default: "h-[24px] w-[44px]", 
