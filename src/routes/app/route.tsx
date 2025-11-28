@@ -8,13 +8,16 @@ export const Route = createFileRoute('/app')({
 
 function RouteComponent() {
   return <div className='flex flex-row'>
-      <SidebarProvider>
+    <SidebarProvider>
 
       <LeftSidebar />
-      <main className='w-full p-4'>
-          <SidebarTrigger />
-         <Outlet />
+      <main className='w-full p-4 relative '>
+        <SidebarTrigger />
+
+        <div className="max-w-[960px] mx-auto">
+          <Outlet />
+        </div>
       </main>
-      </SidebarProvider>
+    </SidebarProvider>
   </div>
 }

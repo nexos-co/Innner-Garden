@@ -6,9 +6,6 @@ export const Route = createFileRoute('/app/friends/')({
   component: RouteComponent,
 })
 
-
-
-
 const updates = [
   {
     id: 'xl2',
@@ -45,13 +42,12 @@ const updates = [
 ]
 
 function RouteComponent() {
-  return <div className='flex flex-col space-y-10 mt-3 max-w-[960px] mx-auto'>
+  return <div className='flex flex-col space-y-10 mt-3'>
     <div className="flex gap-2 items-center justify-between">
       <div className="text-3xl">
         Latest Updates
       </div>
       <div className="space-y-2 flex items-center">
-
           <SearchFriends />
       </div>
     </div>

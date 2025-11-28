@@ -15,6 +15,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import { collections } from "@/lib/constants/sidebar.constant"
+import { Link } from "@tanstack/react-router"
 
 export function LeftSidebar() {
   return (
@@ -37,10 +38,10 @@ export function LeftSidebar() {
                       {collection.routes.map((route) => (
                         <SidebarMenuSubItem key={route.name} className="mt-2">
                           <SidebarMenuSubButton asChild isActive={false}>
-                            <a href={route.url} className="text-[15px]">
+                            <Link to={route.url} className="text-[15px]">
                               <route.icon />
                               {route.name}
-                            </a>
+                            </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}

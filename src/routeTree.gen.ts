@@ -16,6 +16,7 @@ import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-qu
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as AppGoalsRouteImport } from './routes/app/goals'
+import { Route as AppGoalIndexRouteImport } from './routes/app/goal/index'
 import { Route as AppFriendsIndexRouteImport } from './routes/app/friends/index'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
@@ -55,6 +56,11 @@ const AppGoalsRoute = AppGoalsRouteImport.update({
   path: '/goals',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppGoalIndexRoute = AppGoalIndexRouteImport.update({
+  id: '/goal/',
+  path: '/goal/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppFriendsIndexRoute = AppFriendsIndexRouteImport.update({
   id: '/friends/',
   path: '/friends/',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/app/friends': typeof AppFriendsIndexRoute
+  '/app/goal': typeof AppGoalIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/app/friends': typeof AppFriendsIndexRoute
+  '/app/goal': typeof AppGoalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -106,6 +114,7 @@ export interface FileRoutesById {
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/app/friends/': typeof AppFriendsIndexRoute
+  '/app/goal/': typeof AppGoalIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -120,6 +129,7 @@ export interface FileRouteTypes {
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/app/friends'
+    | '/app/goal'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/app/friends'
+    | '/app/goal'
   id:
     | '__root__'
     | '/'
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/app/friends/'
+    | '/app/goal/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -206,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppGoalsRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/goal/': {
+      id: '/app/goal/'
+      path: '/goal'
+      fullPath: '/app/goal'
+      preLoaderRoute: typeof AppGoalIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/friends/': {
       id: '/app/friends/'
       path: '/friends'
@@ -234,12 +253,14 @@ interface AppRouteRouteChildren {
   AppGoalsRoute: typeof AppGoalsRoute
   AppIndexRoute: typeof AppIndexRoute
   AppFriendsIndexRoute: typeof AppFriendsIndexRoute
+  AppGoalIndexRoute: typeof AppGoalIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppGoalsRoute: AppGoalsRoute,
   AppIndexRoute: AppIndexRoute,
   AppFriendsIndexRoute: AppFriendsIndexRoute,
+  AppGoalIndexRoute: AppGoalIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

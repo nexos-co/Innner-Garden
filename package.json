@@ -43,6 +43,7 @@
     "embla-carousel-react": "^8.6.0",
     "lucide-react": "^0.544.0",
     "react": "^19.2.0",
+    "react-circular-progressbar": "^2.2.0",
     "react-dom": "^19.2.0",
     "rollup": "^4.53.3",
     "storybook": "^9.1.9",
