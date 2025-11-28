@@ -57,6 +57,7 @@ code {
   --app-primary: #c56131;
   --app-border: #6a3424;
   --app-text: #c56131;
+  --success: #00a008;
 }
 
 .dark {
@@ -135,6 +136,7 @@ code {
   --color-app-primary: var(--app-primary);
   --color-app-border: var(--app-border);
   --color-app-text: var(--app-text);
+  --color-success: var(--success);
 }
 
 @layer base {
