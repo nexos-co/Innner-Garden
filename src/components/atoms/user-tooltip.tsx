@@ -1,7 +1,8 @@
 import type { FunctionComponent } from "react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"; 
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import UserCard from "./user-card";
 import { Separator } from "../ui/separator";
+import { Badge } from "../storybook";
 
 interface UserTooltipProps {
     name: string;
@@ -31,10 +32,11 @@ const UserTooltip: FunctionComponent<UserTooltipProps> = ({
                     avatarUrl={avatarUrl}
                     additionalText={email}
                 />
-                <Separator className="my-1" />
-                <div className="flex justify-around">
-                   <p className="font-semibold text-app-primary">Projects in Common: </p>
-                   <div className="text-app-border">{commonProjects}</div>
+                <Separator className="my-2" />
+                <div className="flex justify-around gap-4 items-center">
+                    <p className="font-semibold text-app-primary">Projects in Common: 
+                    </p>
+                    <Badge variant="success">{commonProjects}</Badge>
                 </div>
             </TooltipContent>
         </Tooltip>
