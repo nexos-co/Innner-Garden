@@ -95,6 +95,9 @@ importers:
       react:
         specifier: ^19.2.0
         version: 19.2.0
+      react-circular-progressbar:
+        specifier: ^2.2.0
+        version: 2.2.0(react@19.2.0)
       react-dom:
         specifier: ^19.2.0
         version: 19.2.0(react@19.2.0)
@@ -2687,6 +2690,11 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
+
+  react-circular-progressbar@2.2.0:
+    resolution: {integrity: sha512-cgyqEHOzB0nWMZjKfWN3MfSa1LV3OatcDjPz68lchXQUEiBD5O1WsAtoVK4/DSL0B4USR//cTdok4zCBkq8X5g==}
+    peerDependencies:
+      react: '>=0.14.0'
 
   react-docgen-typescript@2.4.0:
     resolution: {integrity: sha512-ZtAp5XTO5HRzQctjPU0ybY0RRCQO19X/8fxn3w7y2VVTUbGHDKULPTL4ky3vB05euSgG5NpALhEhDPvQ56wvXg==}
@@ -5734,6 +5742,10 @@ snapshots:
       react-is: 17.0.2
 
   punycode@2.3.1: {}
+
+  react-circular-progressbar@2.2.0(react@19.2.0):
+    dependencies:
+      react: 19.2.0
 
   react-docgen-typescript@2.4.0(typescript@5.9.3):
     dependencies:
