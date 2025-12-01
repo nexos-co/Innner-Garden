@@ -3,14 +3,14 @@ import { cva, type VariantProps } from "class-variance-authority" // Import cva
 import { cn } from "@/lib/utils"
 
 const cardVariants = cva(
-  "flex flex-col shrink-0 shadow w-[17rem] rounded-md aspect-4/5",
+  "flex flex-col shrink-0 rounded-md ",
   {
     variants: {
       variant: {
         default:
-          "bg-background rounded-xl shadow-md p-2 space-y-2",
+          "bg-background border border-app-border rounded-xl p-2 space-y-2",
         primary:
-          "border border-app-border p-2 space-y-2",
+          "bg-background border border-app-border rounded-xl p-2 space-y-2",
         secondary:
           "bg-sidebar border border-app-border p-2 space-y-2",
       },
@@ -21,7 +21,7 @@ const cardVariants = cva(
     },
     defaultVariants: {
       variant: "default",
-      interactive: true,
+      interactive: false,
     },
   }
 )
@@ -36,7 +36,7 @@ function Card({ className, variant, ...props }: CardProps) {
       data-slot="card"
       className={cn(
         cardVariants({ variant }),
-        className
+        className,
       )}
       {...props}
     />

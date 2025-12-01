@@ -20,7 +20,7 @@ const UserCard: FunctionComponent<UserCardProps> = ({
     className
 }) => {
     return (<div className={
-        cn("flex gap-2 items-center border border-app-border w-fit  rounded-2xl py-1 pl-2 pr-4 bg-sidebar", className)
+        cn("flex gap-2 items-center border border-app-border w-fit  rounded-2xl py-1 pl-2 px-5 bg-sidebar", className)
     }>
         <Avatar>
             <AvatarImage src={avatarUrl} alt="@shadcn" />
