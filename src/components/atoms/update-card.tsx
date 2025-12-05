@@ -23,11 +23,11 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({ index }) => {
                 name={faker.person.fullName()}
                 avatarUrl={faker.image.personPortrait()}
             />
-            <div className="w-full flex flex-row">
-                <Card className="w-full h-[20rem] shadow-sm w-full bg-background border-app-border p-4">
+            <div className="w-full flex flex-row w-full">
+                <Card className="w-full h-[30rem] max-w-[40rem]">
 
                 </Card>
-                <Card className={
+                <Card variant='secondary' className={
                     cn("max-w-[25rem] -z-1 shadow-lg  w-full bg-sidebar border border-app-border p-4 transition-all duration-600",
                         isExpanded ? "-translate-x-[4%] translate-y-4" : "-translate-x-[100%]"
                     )
