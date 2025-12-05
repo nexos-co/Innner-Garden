@@ -20,6 +20,7 @@ import { Route as AppGoalIndexRouteImport } from './routes/app/goal/index'
 import { Route as AppFriendsIndexRouteImport } from './routes/app/friends/index'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
+import { Route as AppGoalNewRouteImport } from './routes/app/goal/new'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
@@ -76,6 +77,11 @@ const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
   path: '/demo/form/address',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppGoalNewRoute = AppGoalNewRouteImport.update({
+  id: '/goal/new',
+  path: '/goal/new',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app/': typeof AppIndexRoute
+  '/app/goal/new': typeof AppGoalNewRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/app/friends': typeof AppFriendsIndexRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app': typeof AppIndexRoute
+  '/app/goal/new': typeof AppGoalNewRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/app/friends': typeof AppFriendsIndexRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app/': typeof AppIndexRoute
+  '/app/goal/new': typeof AppGoalNewRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/app/friends/': typeof AppFriendsIndexRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/app/'
+    | '/app/goal/new'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/app/friends'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/app'
+    | '/app/goal/new'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/app/friends'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/app/'
+    | '/app/goal/new'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/app/friends/'
@@ -246,12 +258,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormAddressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/goal/new': {
+      id: '/app/goal/new'
+      path: '/goal/new'
+      fullPath: '/app/goal/new'
+      preLoaderRoute: typeof AppGoalNewRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
 interface AppRouteRouteChildren {
   AppGoalsRoute: typeof AppGoalsRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppGoalNewRoute: typeof AppGoalNewRoute
   AppFriendsIndexRoute: typeof AppFriendsIndexRoute
   AppGoalIndexRoute: typeof AppGoalIndexRoute
 }
@@ -259,6 +279,7 @@ interface AppRouteRouteChildren {
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppGoalsRoute: AppGoalsRoute,
   AppIndexRoute: AppIndexRoute,
+  AppGoalNewRoute: AppGoalNewRoute,
   AppFriendsIndexRoute: AppFriendsIndexRoute,
   AppGoalIndexRoute: AppGoalIndexRoute,
 }
