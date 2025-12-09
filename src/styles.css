@@ -19,8 +19,14 @@ code {
     source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+html{
+  background-color: var(--background);
+}
+
+
+
 :root {
-  --background:#fff;
+  --hover: #fefefe;
   --foreground: oklch(0.141 0.005 285.823);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
@@ -55,9 +61,18 @@ code {
   --sidebar-ring: oklch(0.871 0.006 286.286);
 
   --app-primary: #c56131;
-  --app-border: #6a3424;
+  --app-border: #69483ff3;
   --app-text: #c56131;
   --success: #00a008;
+
+
+  /** Colors **/
+
+  --sidebar: #f8f9fa;
+  --background: #f8f9fa;
+  --background-secondary: #edede9;
+  --primary-light: #d8f3dc;
+  --primary: #52b788;
 }
 
 .dark {
@@ -94,6 +109,7 @@ code {
   --sidebar-border: oklch(0.274 0.006 286.033);
   --sidebar-ring: oklch(0.442 0.017 285.786);
 }
+
 
 @theme inline {
   --color-background: var(--background);
@@ -137,6 +153,11 @@ code {
   --color-app-border: var(--app-border);
   --color-app-text: var(--app-text);
   --color-success: var(--success);
+  --color-hover: var(--hover);
+
+
+  --color-background-secondary: var(--background-secondary);
+  --color-primary-light: var(--primary-light);
 }
 
 @layer base {
