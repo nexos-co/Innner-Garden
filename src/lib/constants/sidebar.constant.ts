@@ -1,4 +1,4 @@
-import { Blocks, ClockAlert, Home, PieChart, Users, Users2, type LucideIcon } from "lucide-react";
+import { Blocks, ClockAlert, Home, LucideListTodo, PieChart, Users, Users2, type LucideIcon } from "lucide-react";
 
 export interface SidebarCollection {
     name: string,
@@ -32,5 +32,10 @@ export const sidebarLinks: SidebarCollection[] = [
         name: "Updates",
         icon: ClockAlert,
         url: '/dashboard/friends/updates'
+    },
+    {
+        name: 'Invites',
+        icon: LucideListTodo,
+        url: '/dashboard/invites'
     }
 ]

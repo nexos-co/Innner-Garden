@@ -5,13 +5,11 @@ import SentInvitesTable from "@/components/atoms/sent-invites-table"
 import { Badge, Button } from "@/components/storybook"
 import { Card, CardContent } from "@/components/ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { Tooltip } from "@/components/ui/tooltip"
-import { TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip"
 import { createFileRoute } from "@tanstack/react-router"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { useState } from "react"
 
-export const Route = createFileRoute('/app/friends/invites')({
+export const Route = createFileRoute('/dashboard/invites')({
     component: RouteComponent,
 })
 
@@ -34,7 +32,7 @@ function RouteComponent() {
                             <div className="flex gap-5 items-center">
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" size="icon" className="size-8">
-                                        {!isOpenSent ? <ChevronDown /> : <ChevronUp />}
+                                        {!isOpenReceived ? <ChevronDown /> : <ChevronUp />}
                                     </Button>
                                 </CollapsibleTrigger>
                                 <h2>Invites Received</h2>
