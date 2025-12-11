@@ -1,4 +1,4 @@
-import type { FunctionComponent } from 'react';
+import { useEffect, useState, type FunctionComponent } from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -7,19 +7,26 @@ interface CircularProgressProps {
 }
 
 const CircularProgress: FunctionComponent<CircularProgressProps> = () => {
-    const percentage = 66;
+    const [percentage, setPercentage] = useState(0);
+    const endPercentage = 46;
 
-     return <CircularProgressbar
+    useEffect(() => {
+        if (percentage >= endPercentage) return setPercentage(endPercentage)
+
+        setPercentage((prev) => prev += 1)
+    }, [percentage])
+
+    return <CircularProgressbar
+        strokeWidth={13}
         value={percentage}
-        text={`LV:34`}
+        text={`${percentage}%`}
         styles={buildStyles({
-            rotation: 0.1,
+            rotation: 0,
             strokeLinecap: 'round',
-            textColor: '#c56131',
-            
-            textSize: '13px',
+            textColor: 'var(--primary)',
+            textSize: '16px',
             pathTransitionDuration: 0.5,
-            pathColor: `#c56131`,
+            pathColor: 'var(--primary)',
             trailColor: '#d6d6d6',
             backgroundColor: '#c56131',
         })}

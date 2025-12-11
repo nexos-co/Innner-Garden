@@ -11,10 +11,8 @@ function RouteComponent() {
     <SidebarProvider>
 
       <LeftSidebar />
-      <main className='w-full p-4 relative '>
-        <SidebarTrigger />
-
-        <div className="max-w-[960px] mx-auto">
+      <main className='w-full relative '>
+        <div className="">
           <Outlet />
         </div>
       </main>

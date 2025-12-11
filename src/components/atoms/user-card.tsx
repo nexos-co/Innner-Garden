@@ -11,25 +11,29 @@ interface UserCardProps {
     avatarUrl: string,
     additionalText?: string,
     className?: string,
+    size?:number,
+    children?: React.ReactNode
 }
 
 const UserCard: FunctionComponent<UserCardProps> = ({
     name,
     avatarUrl,
     additionalText,
-    className
+    className,
+    size,
+    children
 }) => {
     return (<div className={
-        cn("flex gap-2 items-center border border-app-border w-fit  rounded-2xl py-1 pl-2 px-5 bg-sidebar", className)
+        cn("flex gap-2 items-center w-fit rounded-2xl py-1 ", className)
     }>
-        <Avatar>
+        <Avatar className={cn("size-6 border")}>
             <AvatarImage src={avatarUrl} alt="@shadcn" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback>cn</AvatarFallback>
         </Avatar>
 
-        <div className="text-sm">
+        <div className="text-xs">
             <p>{name}</p>
-            <p className="text-xs">{additionalText}</p>
+            <p className="text-xs text-muted-foreground">{additionalText} {children} </p>
         </div>
     </div>);
 }

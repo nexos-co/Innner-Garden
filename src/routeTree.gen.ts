@@ -9,20 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
-import { Route as DemoTableRouteImport } from './routes/demo/table'
-import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as AppGoalsRouteImport } from './routes/app/goals'
 import { Route as AppGoalIndexRouteImport } from './routes/app/goal/index'
 import { Route as AppFriendsIndexRouteImport } from './routes/app/friends/index'
-import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
-import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
 import { Route as AppGoalNewRouteImport } from './routes/app/goal/new'
 import { Route as AppFriendsInvitesRouteImport } from './routes/app/friends/invites'
 
+const DashboardRouteRoute = DashboardRouteRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
   path: '/app',
@@ -33,25 +35,15 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRouteRoute,
-} as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoTableRoute = DemoTableRouteImport.update({
-  id: '/demo/table',
-  path: '/demo/table',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStorybookRoute = DemoStorybookRouteImport.update({
-  id: '/demo/storybook',
-  path: '/demo/storybook',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const AppGoalsRoute = AppGoalsRouteImport.update({
   id: '/goals',
@@ -68,131 +60,116 @@ const AppFriendsIndexRoute = AppFriendsIndexRouteImport.update({
   path: '/friends/',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const DemoFormSimpleRoute = DemoFormSimpleRouteImport.update({
-  id: '/demo/form/simple',
-  path: '/demo/form/simple',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
-  id: '/demo/form/address',
-  path: '/demo/form/address',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AppGoalNewRoute = AppGoalNewRouteImport.update({
   id: '/goal/new',
   path: '/goal/new',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppFriendsInvitesRoute = AppFriendsInvitesRouteImport.update({
-  id: '/friends/invites',
-  path: '/friends/invites',
+const DashboardFriendsUpdatesIndexRoute =
+  DashboardFriendsUpdatesIndexRouteImport.update({
+    id: '/friends/updates/',
+    path: '/friends/updates/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const AppFriendsUpdatesIndexRoute = AppFriendsUpdatesIndexRouteImport.update({
+  id: '/friends/updates/',
+  path: '/friends/updates/',
   getParentRoute: () => AppRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/app/goals': typeof AppGoalsRoute
-  '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app/': typeof AppIndexRoute
-  '/app/friends/invites': typeof AppFriendsInvitesRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/app/goal/new': typeof AppGoalNewRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
   '/app/friends': typeof AppFriendsIndexRoute
   '/app/goal': typeof AppGoalIndexRoute
+  '/app/friends/updates': typeof AppFriendsUpdatesIndexRoute
+  '/dashboard/friends/updates': typeof DashboardFriendsUpdatesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app/goals': typeof AppGoalsRoute
-  '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app': typeof AppIndexRoute
-  '/app/friends/invites': typeof AppFriendsInvitesRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/app/goal/new': typeof AppGoalNewRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
   '/app/friends': typeof AppFriendsIndexRoute
   '/app/goal': typeof AppGoalIndexRoute
+  '/app/friends/updates': typeof AppFriendsUpdatesIndexRoute
+  '/dashboard/friends/updates': typeof DashboardFriendsUpdatesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/dashboard': typeof DashboardRouteRouteWithChildren
   '/app/goals': typeof AppGoalsRoute
-  '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app/': typeof AppIndexRoute
   '/app/friends/invites': typeof AppFriendsInvitesRoute
   '/app/goal/new': typeof AppGoalNewRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
   '/app/friends/': typeof AppFriendsIndexRoute
   '/app/goal/': typeof AppGoalIndexRoute
+  '/app/friends/updates/': typeof AppFriendsUpdatesIndexRoute
+  '/dashboard/friends/updates/': typeof DashboardFriendsUpdatesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/app'
+    | '/dashboard'
     | '/app/goals'
-    | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/app/'
     | '/app/friends/invites'
     | '/app/goal/new'
-    | '/demo/form/address'
-    | '/demo/form/simple'
     | '/app/friends'
     | '/app/goal'
+    | '/app/friends/updates'
+    | '/dashboard/friends/updates'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/app/goals'
-    | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/app'
     | '/app/friends/invites'
     | '/app/goal/new'
-    | '/demo/form/address'
-    | '/demo/form/simple'
     | '/app/friends'
     | '/app/goal'
+    | '/app/friends/updates'
+    | '/dashboard/friends/updates'
   id:
     | '__root__'
     | '/'
     | '/app'
+    | '/dashboard'
     | '/app/goals'
-    | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/app/'
     | '/app/friends/invites'
     | '/app/goal/new'
-    | '/demo/form/address'
-    | '/demo/form/simple'
     | '/app/friends/'
     | '/app/goal/'
+    | '/app/friends/updates/'
+    | '/dashboard/friends/updates/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
-  DemoStorybookRoute: typeof DemoStorybookRoute
-  DemoTableRoute: typeof DemoTableRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
-  DemoFormAddressRoute: typeof DemoFormAddressRoute
-  DemoFormSimpleRoute: typeof DemoFormSimpleRoute
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -207,33 +184,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/app/': {
       id: '/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRouteRoute
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/table': {
-      id: '/demo/table'
-      path: '/demo/table'
-      fullPath: '/demo/table'
-      preLoaderRoute: typeof DemoTableRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/storybook': {
-      id: '/demo/storybook'
-      path: '/demo/storybook'
-      fullPath: '/demo/storybook'
-      preLoaderRoute: typeof DemoStorybookRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/app/goals': {
       id: '/app/goals'
@@ -255,20 +218,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/friends'
       preLoaderRoute: typeof AppFriendsIndexRouteImport
       parentRoute: typeof AppRouteRoute
-    }
-    '/demo/form/simple': {
-      id: '/demo/form/simple'
-      path: '/demo/form/simple'
-      fullPath: '/demo/form/simple'
-      preLoaderRoute: typeof DemoFormSimpleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/form/address': {
-      id: '/demo/form/address'
-      path: '/demo/form/address'
-      fullPath: '/demo/form/address'
-      preLoaderRoute: typeof DemoFormAddressRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/app/goal/new': {
       id: '/app/goal/new'
@@ -294,6 +243,7 @@ interface AppRouteRouteChildren {
   AppGoalNewRoute: typeof AppGoalNewRoute
   AppFriendsIndexRoute: typeof AppFriendsIndexRoute
   AppGoalIndexRoute: typeof AppGoalIndexRoute
+  AppFriendsUpdatesIndexRoute: typeof AppFriendsUpdatesIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
@@ -303,20 +253,31 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppGoalNewRoute: AppGoalNewRoute,
   AppFriendsIndexRoute: AppFriendsIndexRoute,
   AppGoalIndexRoute: AppGoalIndexRoute,
+  AppFriendsUpdatesIndexRoute: AppFriendsUpdatesIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
   AppRouteRouteChildren,
 )
 
+interface DashboardRouteRouteChildren {
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardFriendsUpdatesIndexRoute: typeof DashboardFriendsUpdatesIndexRoute
+}
+
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardFriendsUpdatesIndexRoute: DashboardFriendsUpdatesIndexRoute,
+}
+
+const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
+  DashboardRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
-  DemoStorybookRoute: DemoStorybookRoute,
-  DemoTableRoute: DemoTableRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
-  DemoFormAddressRoute: DemoFormAddressRoute,
-  DemoFormSimpleRoute: DemoFormSimpleRoute,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
