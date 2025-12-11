@@ -21,12 +21,7 @@ export const Default = {
     children: 'Default Badge',
   },
 }
-export const Lite = {
-  args:{
-    variant: 'lite',
-    children: 'Lite Badge',
-  }
-}
+
 export const Secondary = {
   args:{
     variant: 'secondary',
@@ -47,23 +42,9 @@ export const Success = {
     children: 'Success Badge',
   }
 }
-
-export const Blue = {
-   args:{
-    variant: 'blue',
-    children: 'Blue Badge',
-  } 
-}
 export const Outline = {
    args:{
     variant: 'outline',
     children: 'Outline Badge',
-  } 
-}
-
-export const Purple = {
-   args:{
-    variant: 'purple',
-    children: 'Purple Badge',
   } 
 }

@@ -21,12 +21,6 @@ export const Default = {
     children: 'Default Button',
   },
 }
-export const Lite = {
-  args:{
-    variant: 'lite',
-    children: 'Lite Button',
-  }
-}
 export const Secondary = {
   args:{
     variant: 'secondary',

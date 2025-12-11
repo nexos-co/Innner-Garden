@@ -1,4 +1,4 @@
-import { Blocks, BookPlusIcon, ClockAlert, PieChart, type LucideIcon } from "lucide-react";
+import { Blocks, BookPlusIcon, ClockAlert, LucideListTodo, PieChart, type LucideIcon } from "lucide-react";
 
 export interface SidebarCollection {
     name: string,
@@ -38,6 +38,11 @@ export const collections: SidebarCollection[] = [
                 name: "Updates",
                 icon: ClockAlert,
                 url: '/app/friends/',
+            },
+            {
+                name: 'Invites',
+                icon: LucideListTodo,
+                url: '/app/friends/invites'
             }
         ]
     }

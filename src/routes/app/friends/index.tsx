@@ -1,152 +1,78 @@
-import UserCard from '@/components/atoms/user-card'
-import SearchFriends from '@/components/composition/updates/search-friends'
-import { Badge } from '@/components/storybook'
-import { Separator } from '@/components/ui/separator'
-import { faker } from '@faker-js/faker'
+import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { CalendarDays } from 'lucide-react';
 import { createFileRoute } from '@tanstack/react-router'
+import { Fades } from '@/components/animate-ui/primitives/effects/fade';
+
+type UpdateData = {
+  id: string
+  title: string
+  goal: string
+  type: string
+  date: Date
+}
+const updatesData: UpdateData[] = [
+  { id: '1', title: 'Feature Alpha Complete', goal: 'Launch 1.0', type: 'High', date: new Date() },
+  { id: '2', title: 'Design Review Passed', goal: 'Design System', type: 'Medium', date: new Date() },
+  { id: '3', title: 'Bug Fixes Deployed', goal: 'Maintenance', type: 'Low', date: new Date() },
+  { id: '4', title: 'User Testing Started', goal: 'Testing', type: 'High', date: new Date() },
+  { id: '5', title: 'Database Migration', goal: 'Infrastructure', type: 'High', date: new Date() },
+];
+
+// Helper function to render a single Card (keeps the mapping clean)
+const renderUpdateCard = (update: UpdateData) => (
+  <Card
+    key={update.id}
+    variant="secondary" // Use your custom variant
+    className="mb-4" // Add some margin between items
+  >
+    <CardHeader>
+      {/* Simplified UserCard for example */}
+      <div className="text-sm">{update.date.toLocaleDateString()}</div>
+    </CardHeader>
+    <CardContent className="space-y-2">
+      <div className="space-y-4 bg-sidebar p-2">
+        <p className="text-lg">{update.title}</p>
+        <p className="flex items-center gap-2 text-lg">
+          <CalendarDays size={18} /> GOAL: {update.goal}
+        </p>
+      </div>
+      <div className="flex justify-end gap-2">
+        <Badge> {update.type} </Badge>
+      </div>
+    </CardContent>
+    <CardFooter className="flex-1 items-end">
+      <div className="w-full">
+        <Button className="text-sidebar w-full"> Review</Button>
+      </div>
+    </CardFooter>
+  </Card>
+);
+
 
 export const Route = createFileRoute('/app/friends/')({
   component: RouteComponent,
 })
 
-type PreviewFriends = {
-  id: string;
-  email: string;
-  name: string;
-  avatarUrl: string;
-  commonProjects: number;
-};
-
-const firstFriend: PreviewFriends = {
-  id: '1',
-  name: faker.person.fullName(),
-  avatarUrl: faker.image.avatar(),
-  commonProjects: Math.floor(Math.random() * 100),
-  email: faker.internet.email(),
-};
-
-const secondFriend: PreviewFriends = {
-  id: '2',
-  name: faker.person.fullName(),
-  avatarUrl: faker.image.avatar(),
-  commonProjects: Math.floor(Math.random() * 100),
-  email: faker.internet.email(),
-};
-
-const thirdFriend: PreviewFriends = {
-  id: '3',
-  name: faker.person.fullName(),
-  avatarUrl: faker.image.avatar(),
-  commonProjects: Math.floor(Math.random() * 100),
-  email: faker.internet.email(),
-};
-
-const fourthFriend: PreviewFriends = {
-  id: '3',
-  name: faker.person.fullName(),
-  avatarUrl: faker.image.avatar(),
-  commonProjects: Math.floor(Math.random() * 100),
-  email: faker.internet.email(),
-};
-
-const friendList = [firstFriend, secondFriend, thirdFriend, fourthFriend]
-
+// In RouteComponent
 function RouteComponent() {
-  return <div className='flex w-full h-full overflow-auto mt-5 mx-4'>
-    <div className='text-app-border'>
-      <h3 className='text-6xl font-semibold'>About <span className='text-app-primary'>Common </span> Projects and <span className='text-app-primary'>Friends</span></h3>
-      <p className='text-2xl mx-4'>Stay focus on your goals! Keep your productivity and enhance frindship</p>
-      <div className='flex items-center justify-between'>
-        <UserCard
-          className="border-none bg-transparent my-5"
-          name={firstFriend.name}
-          avatarUrl={firstFriend.avatarUrl}
-          additionalText={firstFriend.email}>
-        </UserCard>
-        <Badge variant='success'>{firstFriend.commonProjects}</Badge>
-      </div>
-      <Separator />
-      <div className='flex gap-2 my-3 px-3 items-center w-full'>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-      </div>
-      <div className='flex items-center justify-between'>
-        <UserCard
-          className="border-none bg-transparent my-5"
-          name={secondFriend.name}
-          avatarUrl={secondFriend.avatarUrl}
-          additionalText={secondFriend.email}>
-        </UserCard>
-        <Badge variant='success'>{secondFriend.commonProjects}</Badge>
-      </div>
-      <Separator />
-      <div className='flex gap-2 my-3 px-3 items-center w-full'>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-      </div>
-      <div className='flex items-center justify-between'>
-        <UserCard
-          className="border-none bg-transparent my-5"
-          name={thirdFriend.name}
-          avatarUrl={thirdFriend.avatarUrl}
-          additionalText={thirdFriend.email}>
-        </UserCard>
-        <Badge variant='success'>{thirdFriend.commonProjects}</Badge>
-      </div>
-      <Separator />
-      <div className='flex gap-2 my-3 px-3 items-center w-full'>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-      </div>
-      <div className='flex items-center justify-between'>
-        <UserCard
-          className="border-none bg-transparent my-5"
-          name={fourthFriend.name}
-          avatarUrl={fourthFriend.avatarUrl}
-          additionalText={fourthFriend.email}>
-        </UserCard>
-        <Badge variant='success'>{fourthFriend.commonProjects}</Badge>
-      </div>
-      <Separator />
-      <div className='flex gap-2 my-3 px-3 items-center w-full'>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-        <div className='bg-sidebar w-[150px] h-[100px]'>
-        </div>
-      </div>
-    </div>
-    <div className='w-1/3 px-4 mx-5'>
-      <SearchFriends />
-      <Separator orientation='horizontal' className='my-4' />
-      {friendList.map((friend) => (
-        <UserCard
-        name={friend.name}
-        avatarUrl={friend.avatarUrl}
-        additionalText={friend.email}
-        className='my-4 w-full'
+  const cardElements = updatesData.map(renderUpdateCard);
+
+  return (
+    <div className='flex w-full h-full overflow-auto mt-5 mx-4'>
+      <div className='text-app-border'>
+        <h3 className='text-6xl font-semibold'>About <span className='text-app-primary'>Common </span> Projects and <span className='text-app-primary'>Friends</span></h3>
+        <p className='text-2xl mx-4'>Stay focus on your goals! Keep your productivity and enhance frindship</p>
+
+        <Fades
+          transition={{ type: 'spring', stiffness: 400, damping: 100 }}
+          className=""
         >
-        </UserCard>
-      ))}
-      <h2 className='text-2xl text-app-border mt-10'>Add new <span className='text-app-primary'>Friends</span></h2>
-      <Separator/>
-
+          {...cardElements}
+        </Fades>
+      </div>
     </div>
-
-
-  </div>
-
+  );
 }
+

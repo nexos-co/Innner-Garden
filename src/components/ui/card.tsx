@@ -8,14 +8,16 @@ const cardVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-background border border-app-border rounded-xl p-2 space-y-2",
+          "bg-background rounded-xl p-4",
         primary:
-          "bg-background border border-app-border rounded-xl p-2 space-y-2",
+          "bg-primary rounded-xl p-4",
         secondary:
-          "bg-sidebar border border-app-border p-2 space-y-2",
+          "bg-background-secondary rounded-xl p-4",
+        card:
+          "bg-card rounded-xl p-4"
       },
       interactive: {
-        true: "hover:shadow-xl transition-all duration-500",
+        true: "hover-xl transition-all duration-500",
         false: "",
       }
     },

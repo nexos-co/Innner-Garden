@@ -21,6 +21,7 @@ import { Route as AppFriendsIndexRouteImport } from './routes/app/friends/index'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
 import { Route as AppGoalNewRouteImport } from './routes/app/goal/new'
+import { Route as AppFriendsInvitesRouteImport } from './routes/app/friends/invites'
 
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
@@ -82,6 +83,11 @@ const AppGoalNewRoute = AppGoalNewRouteImport.update({
   path: '/goal/new',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppFriendsInvitesRoute = AppFriendsInvitesRouteImport.update({
+  id: '/friends/invites',
+  path: '/friends/invites',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app/': typeof AppIndexRoute
+  '/app/friends/invites': typeof AppFriendsInvitesRoute
   '/app/goal/new': typeof AppGoalNewRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app': typeof AppIndexRoute
+  '/app/friends/invites': typeof AppFriendsInvitesRoute
   '/app/goal/new': typeof AppGoalNewRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/app/': typeof AppIndexRoute
+  '/app/friends/invites': typeof AppFriendsInvitesRoute
   '/app/goal/new': typeof AppGoalNewRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/app/'
+    | '/app/friends/invites'
     | '/app/goal/new'
     | '/demo/form/address'
     | '/demo/form/simple'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/app'
+    | '/app/friends/invites'
     | '/app/goal/new'
     | '/demo/form/address'
     | '/demo/form/simple'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/demo/table'
     | '/demo/tanstack-query'
     | '/app/'
+    | '/app/friends/invites'
     | '/app/goal/new'
     | '/demo/form/address'
     | '/demo/form/simple'
@@ -265,12 +277,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppGoalNewRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/friends/invites': {
+      id: '/app/friends/invites'
+      path: '/friends/invites'
+      fullPath: '/app/friends/invites'
+      preLoaderRoute: typeof AppFriendsInvitesRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
 interface AppRouteRouteChildren {
   AppGoalsRoute: typeof AppGoalsRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppFriendsInvitesRoute: typeof AppFriendsInvitesRoute
   AppGoalNewRoute: typeof AppGoalNewRoute
   AppFriendsIndexRoute: typeof AppFriendsIndexRoute
   AppGoalIndexRoute: typeof AppGoalIndexRoute
@@ -279,6 +299,7 @@ interface AppRouteRouteChildren {
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppGoalsRoute: AppGoalsRoute,
   AppIndexRoute: AppIndexRoute,
+  AppFriendsInvitesRoute: AppFriendsInvitesRoute,
   AppGoalNewRoute: AppGoalNewRoute,
   AppFriendsIndexRoute: AppFriendsIndexRoute,
   AppGoalIndexRoute: AppGoalIndexRoute,
