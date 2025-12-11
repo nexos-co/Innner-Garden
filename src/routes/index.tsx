@@ -5,5 +5,5 @@ export const Route = createFileRoute('/')({
 })
 
 function RouteComponent() {
-  return redirect('/app/garden')
+  return redirect('/dashboard')
 }

@@ -5,12 +5,12 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex items-center cursor-pointer gap-2 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
         default:
-          "bg-app-primary/90 border-app-border hover:bg-app-primary border text-app-border",
+          "bg-app-primary/90 border-app-border hover:bg-app-primary border text-background",
         lite:
           "border-app-border bg-sidebar text-app-border hover:bg-sidebar/80",
         destructive:
@@ -20,7 +20,7 @@ const buttonVariants = cva(
         secondary:
           "bg-app-border text-background hover:bg-app-border/80",
         ghost:
-          "bg-transparent text-app-border hover:bg-sidebar/50 dark:hover:bg-accent/50",
+          "bg-transparent ",
         link:
           "text-primary underline-offset-4 hover:underline",
       },

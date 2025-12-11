@@ -7,11 +7,13 @@
 
 body {
   @apply m-0;
-  font-family:
+  font-family: 'TypoRoundDemo',
     -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color:  #161a1d;
+  letter-spacing: 1px;
 }
 
 code {
@@ -21,6 +23,7 @@ code {
 
 html{
   background-color: var(--background);
+  font-size: 120%;
 }
 
 
@@ -68,11 +71,12 @@ html{
 
   /** Colors **/
 
-  --sidebar: #f8f9fa;
-  --background: #f8f9fa;
-  --background-secondary: #edede9;
+  --sidebar: #f2f2f2;
+  --background: #f2f2f2;
+  --background-secondary: #e6e4e4;
   --primary-light: #d8f3dc;
   --primary: #52b788;
+  --card: #fff;
 }
 
 .dark {

@@ -8,12 +8,12 @@ interface TextSeparatorProps {
 
 const TextSeparator: FunctionComponent<TextSeparatorProps> = ({ text, children }) => {
     return (<div className="flex flex-row items-center gap-2">
-        <p className="w-fit">
+        <p className="w-fit text-xs">
             {text}
             {children}
         </p>
         <div className="flex-1">
-            <Separator />
+            <div className="w-full border border-dashed" />
         </div>
     </div>);
 }

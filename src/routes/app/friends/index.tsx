@@ -1,4 +1,4 @@
-import UpdateCard from '@/components/atoms/update-card'
+import UpdateCard from '@/components/composition/updates/update-card'
 import SearchFriends from '@/components/composition/updates/search-friends'
 import { createFileRoute } from '@tanstack/react-router'
 
