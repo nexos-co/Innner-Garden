@@ -9,7 +9,7 @@ import {
 } from "../ui/card"
 
 import { Button } from "@/components/ui/button"
-import { ArrowRight, CalendarDays } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 
 const meta: Meta<typeof Card> = {

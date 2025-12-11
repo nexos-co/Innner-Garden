@@ -5,22 +5,25 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center cursor-pointer gap-2 whitespace-nowrap rounded-md transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  "inline-flex items-center border justify-center gap-2 whitespace-nowrap rounded-xl p-2 text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
         default:
-          "bg-app-primary/90 border-app-border hover:bg-app-primary border text-background",
-        lite:
-          "border-app-border bg-sidebar text-app-border hover:bg-sidebar/80",
-        destructive:
-          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline:
-          "border border-app-border bg-background text-app-border shadow-xs hover:bg-sidebar/50 ",
+          "bg-background-secondary hover:bg-background-secondary/80",
+        primary:
+          'bg-primary hover:bg-primary/90',
         secondary:
-          "bg-app-border text-background hover:bg-app-border/80",
+          "bg-background hover:bg-background-secondary/80",
         ghost:
-          "bg-transparent ",
+          "bg-transparent text-app-border hover:bg-sidebar/50 dark:hover:bg-accent/50",  
+        destructive:
+          "bg-destructive/10 border-destructive text-destructive hover:bg-destructive/20 focus-visible:ring-destructive/20 ",
+        outline:
+          "bg-transparent hover:bg-background/30",
+          success: 
+          'bg-success/10 border-success text-success hover:bg-success/20',
+        
         link:
           "text-primary underline-offset-4 hover:underline",
       },
