@@ -19,6 +19,8 @@ import { Route as AppGoalIndexRouteImport } from './routes/app/goal/index'
 import { Route as AppFriendsIndexRouteImport } from './routes/app/friends/index'
 import { Route as AppGoalNewRouteImport } from './routes/app/goal/new'
 import { Route as AppFriendsInvitesRouteImport } from './routes/app/friends/invites'
+import { Route as DashboardFriendsUpdatesIndexRouteImport } from './routes/dashboard/friends/updates/index'
+import { Route as AppFriendsUpdatesIndexRouteImport } from './routes/app/friends/updates/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
@@ -65,6 +67,11 @@ const AppGoalNewRoute = AppGoalNewRouteImport.update({
   path: '/goal/new',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppFriendsInvitesRoute = AppFriendsInvitesRouteImport.update({
+  id: '/friends/invites',
+  path: '/friends/invites',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const DashboardFriendsUpdatesIndexRoute =
   DashboardFriendsUpdatesIndexRouteImport.update({
     id: '/friends/updates/',
@@ -84,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/app/goals': typeof AppGoalsRoute
   '/app/': typeof AppIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/app/friends/invites': typeof AppFriendsInvitesRoute
   '/app/goal/new': typeof AppGoalNewRoute
   '/app/friends': typeof AppFriendsIndexRoute
   '/app/goal': typeof AppGoalIndexRoute
@@ -95,6 +103,7 @@ export interface FileRoutesByTo {
   '/app/goals': typeof AppGoalsRoute
   '/app': typeof AppIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/app/friends/invites': typeof AppFriendsInvitesRoute
   '/app/goal/new': typeof AppGoalNewRoute
   '/app/friends': typeof AppFriendsIndexRoute
   '/app/goal': typeof AppGoalIndexRoute
@@ -108,6 +117,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/app/goals': typeof AppGoalsRoute
   '/app/': typeof AppIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/app/friends/invites': typeof AppFriendsInvitesRoute
   '/app/goal/new': typeof AppGoalNewRoute
   '/app/friends/': typeof AppFriendsIndexRoute
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/app/goals'
     | '/app/'
+    | '/dashboard/'
     | '/app/friends/invites'
     | '/app/goal/new'
     | '/app/friends'
@@ -134,6 +145,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app/goals'
     | '/app'
+    | '/dashboard'
     | '/app/friends/invites'
     | '/app/goal/new'
     | '/app/friends'
@@ -147,6 +159,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/app/goals'
     | '/app/'
+    | '/dashboard/'
     | '/app/friends/invites'
     | '/app/goal/new'
     | '/app/friends/'
@@ -231,6 +244,20 @@ declare module '@tanstack/react-router' {
       path: '/friends/invites'
       fullPath: '/app/friends/invites'
       preLoaderRoute: typeof AppFriendsInvitesRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/dashboard/friends/updates/': {
+      id: '/dashboard/friends/updates/'
+      path: '/friends/updates'
+      fullPath: '/dashboard/friends/updates'
+      preLoaderRoute: typeof DashboardFriendsUpdatesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/app/friends/updates/': {
+      id: '/app/friends/updates/'
+      path: '/friends/updates'
+      fullPath: '/app/friends/updates'
+      preLoaderRoute: typeof AppFriendsUpdatesIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
   }
