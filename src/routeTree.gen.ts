@@ -14,6 +14,7 @@ import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile'
 import { Route as DashboardInvitesRouteImport } from './routes/dashboard/invites'
 import { Route as AppGoalsRouteImport } from './routes/app/goals'
 import { Route as AppGoalIndexRouteImport } from './routes/app/goal/index'
@@ -46,6 +47,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AppRouteRoute,
+} as any)
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardInvitesRoute = DashboardInvitesRouteImport.update({
   id: '/invites',
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/app/goals': typeof AppGoalsRoute
   '/dashboard/invites': typeof DashboardInvitesRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/app/': typeof AppIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/goal/new': typeof DashboardGoalNewRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app/goals': typeof AppGoalsRoute
   '/dashboard/invites': typeof DashboardInvitesRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/app': typeof AppIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/goal/new': typeof DashboardGoalNewRoute
@@ -117,6 +125,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/app/goals': typeof AppGoalsRoute
   '/dashboard/invites': typeof DashboardInvitesRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/app/': typeof AppIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/goal/new': typeof DashboardGoalNewRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/app/goals'
     | '/dashboard/invites'
+    | '/dashboard/profile'
     | '/app/'
     | '/dashboard/'
     | '/dashboard/goal/new'
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app/goals'
     | '/dashboard/invites'
+    | '/dashboard/profile'
     | '/app'
     | '/dashboard'
     | '/dashboard/goal/new'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/app/goals'
     | '/dashboard/invites'
+    | '/dashboard/profile'
     | '/app/'
     | '/dashboard/'
     | '/dashboard/goal/new'
@@ -210,6 +222,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRouteRoute
+    }
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/invites': {
       id: '/dashboard/invites'
@@ -285,6 +304,7 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 
 interface DashboardRouteRouteChildren {
   DashboardInvitesRoute: typeof DashboardInvitesRoute
+  DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardGoalNewRoute: typeof DashboardGoalNewRoute
   DashboardFriendsUpdatesIndexRoute: typeof DashboardFriendsUpdatesIndexRoute
@@ -292,6 +312,7 @@ interface DashboardRouteRouteChildren {
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardInvitesRoute: DashboardInvitesRoute,
+  DashboardProfileRoute: DashboardProfileRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardGoalNewRoute: DashboardGoalNewRoute,
   DashboardFriendsUpdatesIndexRoute: DashboardFriendsUpdatesIndexRoute,

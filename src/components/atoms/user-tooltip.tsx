@@ -25,19 +25,13 @@ const UserTooltip: FunctionComponent<UserTooltipProps> = ({
             <TooltipTrigger>
                 {children}
             </TooltipTrigger>
-            <TooltipContent className="p-3 bg-sidebar border border-app-border text-md text-app-border -translate-x-3/4 translate-y-3/4">
+            <TooltipContent className="px-2 py-1 bg-background-secondary border mt-1" side="bottom">
                 <UserCard
-                    className="border-none"
+                    className="border-none text-primary text-sm"
                     name={name}
                     avatarUrl={avatarUrl}
                     additionalText={email}
                 />
-                <Separator className="my-2" />
-                <div className="flex justify-around gap-4 items-center">
-                    <p className="font-semibold text-app-primary">Projects in Common: 
-                    </p>
-                    <Badge variant="success">{commonProjects}</Badge>
-                </div>
             </TooltipContent>
         </Tooltip>
     );
