@@ -11,7 +11,7 @@ export const sidebarLinks: SidebarCollection[] = [
         name: 'Home',
         icon: Home,
         url: '/dashboard'
-    },
+    },  
     {
         name: 'Garden',
         icon: Blocks,

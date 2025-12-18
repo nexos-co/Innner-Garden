@@ -72,6 +72,11 @@ const DashboardGoalNewRoute = DashboardGoalNewRouteImport.update({
   path: '/goal/new',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const AppFriendsInvitesRoute = AppFriendsInvitesRouteImport.update({
+  id: '/friends/invites',
+  path: '/friends/invites',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const DashboardFriendsUpdatesIndexRoute =
   DashboardFriendsUpdatesIndexRouteImport.update({
     id: '/friends/updates/',
@@ -245,6 +250,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/goal/new'
       preLoaderRoute: typeof DashboardGoalNewRouteImport
       parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/friends/updates/': {
+      id: '/dashboard/friends/updates/'
+      path: '/friends/updates'
+      fullPath: '/dashboard/friends/updates'
+      preLoaderRoute: typeof DashboardFriendsUpdatesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/app/friends/updates/': {
+      id: '/app/friends/updates/'
+      path: '/friends/updates'
+      fullPath: '/app/friends/updates'
+      preLoaderRoute: typeof AppFriendsUpdatesIndexRouteImport
+      parentRoute: typeof AppRouteRoute
     }
     '/dashboard/friends/updates/': {
       id: '/dashboard/friends/updates/'
