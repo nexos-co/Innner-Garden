@@ -1,199 +1,160 @@
-"use client"
+import  { useState } from 'react';
+import { useForm, FormProvider, type Resolver } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Badge, Button } from "@/components/storybook";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import { Minus, Plus } from "lucide-react";
-import React from "react";
-import SearchFriends from "../updates/search-friends";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Frequency } from "./create-goal.constants";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Check, Loader2 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const formSchema = z.object({
-    name: z.string().min(2, {
-        message: "Goal name must be at least 2 characters.",
-    }),
-    description: z.string().min(5, {
-        message: "Your description must be at least 5 characters"
-    }),
-    friend:
-        z.string().min(2, {
-            message: "Friend name must be at least 2 characters.",
-        }),
-    frequency: z.enum([Frequency.DAILY, Frequency.MONTHLY, Frequency.WEEKLY]),
-    hours: z.number().optional(),
-    times: z.number().optional(),
-})
-const CreateNewGoal = () => {
-    const [goal, setGoal] = React.useState(350)
+import { cn } from "@/lib/utils";
+import { formSchema, type FormValues } from '@/lib/form-schema';
+import { Frequency, WORK_DAYS } from './create-goal.constants';
+import { FirstStep } from './first-step';
+import { ThirdStep } from './third-step';
+import { SecondStep } from './second-step';
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+
+const STEPS = [
+    { id: "step1", label: "Goal Details" },
+    { id: "step2", label: "Invite Friend" },
+    { id: "step3", label: "Set Schedule" },
+];
+
+export default function CreateNewGoal() {
+    const [currentStep, setCurrentStep] = useState(0);
+    const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+
+    const form = useForm<FormValues>({
+        resolver: zodResolver(formSchema) as Resolver<FormValues>,
         defaultValues: {
             name: "",
-            frequency: Frequency.DAILY
+            tag: "",
+            description: "",
+            friend: undefined,
+            frequency: Frequency.WEEKLY,
+            days: WORK_DAYS,
+            monthlyDates: [],
+            timesCount: undefined, 
         },
-    })
+    });
 
-    function onClick(adjustment: number) {
-        setGoal(Math.max(200, Math.min(400, goal + adjustment)))
-    }
+    const { trigger, getValues, formState: { errors } } = form;
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        //actions here
-        console.log(values)
-    }
+    const handleNext = async () => {
+        let fieldsToValidate: (keyof FormValues)[] = [];
+        if (currentStep === 0) { 
+            fieldsToValidate = ["name", "tag", "description"];
+        } else if (currentStep === 1) { 
+            fieldsToValidate = ["friend"];
+        } else if (currentStep === 2) { 
+            fieldsToValidate = ["frequency", "timesCount"];
+            const freq = getValues("frequency");
+            if (freq === Frequency.WEEKLY) {
+                fieldsToValidate.push("days");
+            } else if (freq === Frequency.MONTHLY) {
+                fieldsToValidate.push("monthlyDates");
+            }
+        }
 
+        const stepIsValid = await trigger(fieldsToValidate, { shouldFocus: true });
 
-    return (<Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className='flex w-full'>
-                <div className="bg-sidebar p-5 w-1/3 flex items-center rounded-full justify-center">
-                    {/**animated plant */}
-                </div>
-                <div className="flex flex-col gap-3 text-app-border p-2 mx-3 min-h-[40rem]">
-                    <div className="mb-5">
-                        <h1 className="text-6xl font-semibold ">Create a <span className="text-app-text">New</span> Goal</h1>
-                        <p className="mx-4">Follow the instructions bellow to create a new goal</p>
-                    </div>
+        if (stepIsValid) {
+            if (!completedSteps.includes(currentStep)) {
+                setCompletedSteps([...completedSteps, currentStep]);
+            }
+            if (currentStep < STEPS.length - 1) {
+                setCurrentStep(currentStep + 1);
+            } else {
+                console.log("Form submitted!", getValues());
+                alert("Form submitted! Check console for data.");
+            }
+        } else {
+            console.log("Validation errors:", errors);
+        }
+    };
 
-                    <div className="flex items-center gap-5">
-                        <Badge variant="lite" className="rounded-full border-none"> 1 </Badge>
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem className="w-full">
-                                    <FormLabel className="mx-2 my-1 text-app-border/70">Set a name for your Goal</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Name" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="h-10">
-                        <Separator orientation="vertical" className="mx-4" />
-                    </div>
-                    <div className="flex items-center gap-5">
-                        <Badge variant="lite" className="rounded-full border-none"> 2 </Badge>
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({ field }) => (
-                                <FormItem className="w-full">
-                                    <FormLabel className="mx-2 my-1 text-app-border/70">Assign a description here</FormLabel>
-                                    <FormControl>
-                                        <Textarea placeholder="Description" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="h-10">
-                        <Separator orientation="vertical" className="mx-4" />
-                    </div>
-                    <div className="flex items-center gap-5">
-                        <Badge variant="lite" className="rounded-full border-none"> 3</Badge>
-                        <div className="w-full flex justify-between gap-5">
-                            <p className="mx-2 my-1 text-app-border/70">Invite a Friend</p>
-                            <FormField
-                                control={form.control}
-                                name="friend"
-                                render={({ field }) => (
-                                    <FormItem >
-                                        <FormControl>
-                                            <SearchFriends {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
+    const handlePrevious = () => {
+        if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
+    const renderStepTrigger = (stepIndex: number) => {
+        const isActive = currentStep === stepIndex;
+        const isCompleted = completedSteps.includes(stepIndex) || currentStep > stepIndex;
+
+        return (
+            <TabsTrigger
+                key={STEPS[stepIndex].id}
+                value={STEPS[stepIndex].id}
+                className={cn(
+                    "flex items-center gap-2 relative",
+                    isCompleted && "text-primary",
+                    isActive && "font-bold text-background",
+                    !isCompleted && !isActive && "text-muted-foreground opacity-60 pointer-events-none"
+                )}
+                disabled={!isCompleted && !isActive}
+                onClick={() => {
+                    if (stepIndex < currentStep || isCompleted) {
+                        setCurrentStep(stepIndex);
+                    }
+                }}
+            >
+                {isCompleted && currentStep !== stepIndex ? (
+                    <Check className="h-4 w-4" />
+                ) : isActive ? (
+                    <Loader2 className="h-4 w-4 animate-spin text-background" />
+                ) : (
+                    <div className="h-4 w-4 text-center">{stepIndex + 1}</div>
+                )}
+                {STEPS[stepIndex].label}
+            </TabsTrigger>
+        );
+    };
+
+    return (
+        <Card className="max-w-3xl mx-auto my-8">
+            <CardHeader>
+                <CardTitle className="text-3xl font-bold">Create <span className='text-primary'>New</span> Goal</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Tabs value={STEPS[currentStep].id} className="w-full">
+                    <TabsList className="grid w-full grid-cols-3 mb-8">
+                        {STEPS.map((_, index) => renderStepTrigger(index))}
+                    </TabsList>
+
+                    <FormProvider {...form}>
+                        <form onSubmit={form.handleSubmit(handleNext)}>
+                            <TabsContent value="step1">
+                                <FirstStep form={form} />
+                            </TabsContent>
+
+                            <TabsContent value="step2">
+                                <ThirdStep form={form} />
+                            </TabsContent>
+
+                            <TabsContent value="step3">
+                                <SecondStep form={form} />
+                            </TabsContent>
+
+                            {/* Navigation Buttons */}
+                            <div className="flex justify-between mt-8 pt-4 border-t">
+                                {currentStep > 0 && (
+                                    <Button variant="outline" onClick={handlePrevious} type="button">
+                                        Previous
+                                    </Button>
                                 )}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="h-10">
-                        <Separator orientation="vertical" className="mx-4" />
-                    </div>
-                    <div className="flex items-center gap-5">
-                        <Badge variant="lite" className="rounded-full border-none"> 4 </Badge>
-                        <div className="w-full flex justify-between gap-5">
-                            <p className="mx-2 my-1 text-app-border/70">Set your activity.</p>
-                            <FormField
-                                control={form.control}
-                                name="frequency"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                <SelectTrigger className="w-[180px] bg-sidebar border-app-border">
-                                                    <SelectValue placeholder="Select frequency" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectGroup>
-                                                        <SelectItem value={Frequency.DAILY}>{Frequency.DAILY}</SelectItem>
-                                                        <SelectItem value={Frequency.WEEKLY}>{Frequency.WEEKLY}</SelectItem>
-                                                        <SelectItem value={Frequency.MONTHLY}>{Frequency.MONTHLY}</SelectItem>
-                                                    </SelectGroup>
-                                                </SelectContent>
-                                            </Select>
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                    </div>
-                    <div className="mx-5 my-3">
-                        <div className="p-3 pb-0">
-                            <div className="flex items-center justify-center space-x-2">
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    className="h-8 w-8 shrink-0 rounded-full"
-                                    onClick={() => onClick(-10)}
-                                    disabled={goal <= 200}
-                                >
-                                    <Minus />
-                                    <span className="sr-only">Decrease</span>
-                                </Button>
-                                <div className="flex-1 text-center">
-                                    <div className="text-7xl text-app-primary font-bold tracking-tighter">
-                                        {goal}
-                                    </div>
-
+                                <div className={currentStep === 0 ? "ml-auto" : ""}>
+                                    <Button type="submit">
+                                        {currentStep < STEPS.length - 1 ? "Next" : "Submit"}
+                                    </Button>
                                 </div>
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    className="h-8 w-8 shrink-0 rounded-full"
-                                    onClick={() => onClick(10)}
-                                    disabled={goal >= 400}
-                                >
-                                    <Plus />
-                                    <span className="sr-only">Increase</span>
-                                </Button>
                             </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div className="flex justify-end gap-2 my-5">
-                <Button variant='outline'>Cancel</Button>
-                <Button type="submit" variant='secondary' className="">Create</Button>
-            </div>
-
-        </form>
-    </Form>
-    )
+                        </form>
+                    </FormProvider>
+                </Tabs>
+            </CardContent>
+        </Card>
+    );
 }
-export default CreateNewGoal;
