@@ -1,25 +1,14 @@
-import { Dialog, DialogContent, DialogHeader, DialogOverlay, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { faker } from "@faker-js/faker";
-import { Check, Search } from "lucide-react";
-import { useEffect, useMemo, useState, type FunctionComponent } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command"
-import { cn } from "@/lib/utils";
+
 import UserCard from "@/components/atoms/user-card";
-import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-
-interface SearchFriendsProps {
-
-}
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Dialog, DialogContent, DialogHeader, DialogOverlay, DialogTrigger } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { faker } from "@faker-js/faker";
+import { Check, UserRoundPlus, X } from "lucide-react";
+import { useMemo, useState, type FunctionComponent } from "react";
 
 interface FriendType {
     id: string,
@@ -27,91 +16,124 @@ interface FriendType {
     avatarUrl: string
 }
 
-
-const UserList = () => {
-    const previewFriends: {
-        id: string,
-        name: string,
-        avatarUrl: string,
-    }[] = [
-            { id: '1', name: faker.person.fullName(), avatarUrl: faker.image.avatar() },
-            { id: '2', name: faker.person.fullName(), avatarUrl: faker.image.avatar() },
-            { id: '3', name: faker.person.fullName(), avatarUrl: faker.image.avatar() },
-        ];
-    return <>
-        {previewFriends.map((friend) => (
-            <Avatar className='border border-app-border -ml-3 size-9'>
-                <AvatarImage src={friend.avatarUrl} alt="@shadcn" />
-                <AvatarFallback>{friend.name.slice(0, 2)}</AvatarFallback>
-            </Avatar>
-        ))}
-    </>
+interface SearchFriendsProps {
+    selectedFriendId?: string | undefined; 
+    onSelectFriend: (friendId: string | undefined) => void; 
+    className?: string;
 }
 
-
-const SearchFriends: FunctionComponent<SearchFriendsProps> = () => {
-
-    const friends: FriendType[] = Array.from({ length: 20 }).map(() => {
+const SearchFriends: FunctionComponent<SearchFriendsProps> = ({
+    selectedFriendId,
+    onSelectFriend,
+    className
+}) => {
+    const allFriends: FriendType[] = useMemo(() => Array.from({ length: 20 }).map(() => {
         const name = faker.person.fullName();
         return {
-            id: Math.random().toString(),
-            avatarUrl: faker.image.personPortrait(),
+            id: faker.string.uuid(), 
+            avatarUrl: faker.image.avatar(), 
             name,
         }
-    });
+    }), []);
 
-    const [value, setValue] = useState("");
+    const selectedFriend = useMemo(() =>
+        allFriends.find(f => f.id === selectedFriendId),
+        [selectedFriendId, allFriends]
+    );
+
+    const [open, setOpen] = useState(false);
+    const [commandInputValue, setCommandInputValue] = useState("");
+
 
     return (
-        <Dialog>
-            <DialogTrigger >
-                <div className="flex items-center justify-center">
-                    <UserList />
-                    <div className="flex ml-2 space-x-2 items-center border border-app-border rounded-md bg-sidebar pr-2">
-                        <Input className='border-transparent rounded-r-none border-r' placeholder='Find Friends....' />
-                        <Search size={20} />
-                    </div>
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+                <div className={cn(
+                    "flex items-center space-x-2 px-3 py-2 border border-input rounded-md cursor-pointer hover:bg-accent hover:text-accent-foreground",
+                    "min-h-10 w-full text-left justify-start", 
+                    !selectedFriend && "text-muted-foreground",
+                    className
+                )}
+                    aria-label={selectedFriend ? `Selected friend: ${selectedFriend.name}` : "Search for a friend"}
+                >
+                    {selectedFriend ? (
+                        <>
+                            <Avatar className='size-6'>
+                                <AvatarImage src={selectedFriend.avatarUrl} alt={selectedFriend.name} />
+                                <AvatarFallback>{selectedFriend.name.slice(0, 2)}</AvatarFallback>
+                            </Avatar>
+                            <span>{selectedFriend.name}</span>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="ml-auto h-6 w-6 rounded-full"
+                                onClick={(e) => {
+                                    e.stopPropagation(); 
+                                    onSelectFriend(undefined); 
+                                    setCommandInputValue("");
+                                }}
+                            >
+                                <X className="h-4 w-4" /> 
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <UserRoundPlus className="h-5 w-5 mr-2" />
+                            <span>Find a Friend...</span>
+                        </>
+                    )}
                 </div>
             </DialogTrigger>
 
             <DialogOverlay />
-            <DialogContent className="pt-12 ">
-                <Command value={value} className="w-full">
-                    <DialogHeader className="flex flex-row justify-end px-4">
-                        <UserList />
-                        <div className="w-full max-w-[18rem]">
-                            <CommandInput autoFocus className='border-r focus:border-r overflow-hidden w-full  rounded-r-none' placeholder='Find Friends....' />
-                        </div>
-                    </DialogHeader>
+            <DialogContent className="pt-8 sm:max-w-md pb-3 pl-4">
+                <DialogHeader className="px-4">
+                    <h3 className="text-lg font-semibold">Select a Friend</h3>
+                </DialogHeader>
 
-                    <Separator className="mt-6 bg-sidebar" />
-                    <CommandList >
+                <Command shouldFilter={false} className="w-full pr-2">
+                    <CommandInput
+                        placeholder='Search friends...'
+                        value={commandInputValue}
+                        onValueChange={setCommandInputValue}
+                    />
+                     <Separator className="my-2 bg-background" /> 
+
+                    <CommandList>
                         <CommandEmpty>No friends found.</CommandEmpty>
                         <CommandGroup>
-                            {friends.map((friend) => (
-                                <CommandItem
-                                    className={
-                                        cn("hover:bg-none bg-none", value === friend.name && "bg-sidebar")
-                                    }
-                                    key={friend.id}
-                                    value={friend.name}
-                                    onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? "" : currentValue)
-                                    }}
-                                >
-                                    <UserCard
-                                        name={friend.name}
-                                        avatarUrl={friend.avatarUrl}
-                                        className="border-none bg-transparent"
-                                    />
+                            {allFriends
+                                .filter(friend =>
+                                    friend.name.toLowerCase().includes(commandInputValue.toLowerCase())
+                                )
+                                .map((friend) => (
+                                    <CommandItem
+                                        key={friend.id}
+                                        value={friend.name}
+                                        onSelect={() => {
+                                            if (selectedFriendId === friend.id) {
+                                                onSelectFriend(undefined);
+                                            } else {
+                                                onSelectFriend(friend.id);
+                                            }
+                                            setOpen(false);
+                                        }}
+                                        className={cn(
+                                            "flex items-center justify-between cursor-pointer",
+                                            selectedFriendId === friend.id && "bg-accent text-accent-foreground"
+                                        )}
+                                    >
+                                        <UserCard
+                                            name={friend.name}
+                                            avatarUrl={friend.avatarUrl}
+                                            className="border-none bg-transparent" 
+                                        />
 
-                                    {value === friend.name && (
-                                        <Button className="w-6 h-6 ml-auto" size='icon'>
-                                            <Check className="text-sidebar" />
-                                        </Button>
-                                    )}
-                                </CommandItem>
-                            ))}
+                                        {selectedFriendId === friend.id && (
+                                            <Check className="h-4 w-4 ml-auto" />
+                                        )}
+                                    </CommandItem>
+                                ))}
                         </CommandGroup>
                     </CommandList>
                 </Command>

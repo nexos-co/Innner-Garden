@@ -1,259 +1,160 @@
-"use client"
+import  { useState } from 'react';
+import { useForm, FormProvider, type Resolver } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Badge, Button } from "@/components/storybook";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import { AlarmMinus, ChevronRight, Minus, Plus, Search, Share2Icon, WrenchIcon } from "lucide-react";
-import React, { useState } from "react";
-import SearchFriends from "../updates/search-friends";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { AVATARS, CURATED_TOGGLE_AVATAR_IDS, DAY_INITIALS, DaysOfWeek, Frequency } from "./create-goal.constants";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Check, Loader2 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import { cn } from "@/lib/utils";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { formSchema, type FormValues } from "@/lib/form-schema";
+import { formSchema, type FormValues } from '@/lib/form-schema';
+import { Frequency, WORK_DAYS } from './create-goal.constants';
+import { FirstStep } from './first-step';
+import { ThirdStep } from './third-step';
+import { SecondStep } from './second-step';
 
 
-const getCuratedToggleAvatars = () => AVATARS.filter(avatar =>
-    CURATED_TOGGLE_AVATAR_IDS.includes(avatar.id)
-);
+const STEPS = [
+    { id: "step1", label: "Goal Details" },
+    { id: "step2", label: "Invite Friend" },
+    { id: "step3", label: "Set Schedule" },
+];
 
-
-
-function CreateNewGoal() {
-    const curatedAvatars = getCuratedToggleAvatars();
-    const [selectedEmojiId, setSelectedEmojiId] = useState<string>(curatedAvatars[0]?.id || "");
-    const [selectedFrequency, setSelectedFrequency] = useState<Frequency>(Frequency.WEEKLY || Frequency.DAILY);
-    const [selectedDays, setSelectedDays] = useState<DaysOfWeek[]>([]); // State for selected days
-
-
-    const [currentStep, setCurrentStep] = useState(0); // 0-indexed
+export default function CreateNewGoal() {
+    const [currentStep, setCurrentStep] = useState(0);
     const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
     const form = useForm<FormValues>({
-        resolver: zodResolver(formSchema),
+        resolver: zodResolver(formSchema) as Resolver<FormValues>,
         defaultValues: {
             name: "",
+            tag: "",
             description: "",
-            friend: "",
-            frequency: Frequency.DAILY,
+            friend: undefined,
+            frequency: Frequency.WEEKLY,
+            days: WORK_DAYS,
+            monthlyDates: [],
+            timesCount: undefined, 
         },
-    })
+    });
 
-    const handleDaysChange = (newDays: string[]) => {
-        // Assert that the string array is treated as DaysOfWeek array
-        setSelectedDays(newDays as DaysOfWeek[]);
-        console.log("Selected Days:", newDays);
+    const { trigger, getValues, formState: { errors } } = form;
+
+    const handleNext = async () => {
+        let fieldsToValidate: (keyof FormValues)[] = [];
+        if (currentStep === 0) { 
+            fieldsToValidate = ["name", "tag", "description"];
+        } else if (currentStep === 1) { 
+            fieldsToValidate = ["friend"];
+        } else if (currentStep === 2) { 
+            fieldsToValidate = ["frequency", "timesCount"];
+            const freq = getValues("frequency");
+            if (freq === Frequency.WEEKLY) {
+                fieldsToValidate.push("days");
+            } else if (freq === Frequency.MONTHLY) {
+                fieldsToValidate.push("monthlyDates");
+            }
+        }
+
+        const stepIsValid = await trigger(fieldsToValidate, { shouldFocus: true });
+
+        if (stepIsValid) {
+            if (!completedSteps.includes(currentStep)) {
+                setCompletedSteps([...completedSteps, currentStep]);
+            }
+            if (currentStep < STEPS.length - 1) {
+                setCurrentStep(currentStep + 1);
+            } else {
+                console.log("Form submitted!", getValues());
+                alert("Form submitted! Check console for data.");
+            }
+        } else {
+            console.log("Validation errors:", errors);
+        }
     };
 
-    const onSubmit = () => {
+    const handlePrevious = () => {
+        if (currentStep > 0) {
+            setCurrentStep(currentStep - 1);
+        }
+    };
 
-    }
+    const renderStepTrigger = (stepIndex: number) => {
+        const isActive = currentStep === stepIndex;
+        const isCompleted = completedSteps.includes(stepIndex) || currentStep > stepIndex;
+
+        return (
+            <TabsTrigger
+                key={STEPS[stepIndex].id}
+                value={STEPS[stepIndex].id}
+                className={cn(
+                    "flex items-center gap-2 relative",
+                    isCompleted && "text-primary",
+                    isActive && "font-bold text-background",
+                    !isCompleted && !isActive && "text-muted-foreground opacity-60 pointer-events-none"
+                )}
+                disabled={!isCompleted && !isActive}
+                onClick={() => {
+                    if (stepIndex < currentStep || isCompleted) {
+                        setCurrentStep(stepIndex);
+                    }
+                }}
+            >
+                {isCompleted && currentStep !== stepIndex ? (
+                    <Check className="h-4 w-4" />
+                ) : isActive ? (
+                    <Loader2 className="h-4 w-4 animate-spin text-background" />
+                ) : (
+                    <div className="h-4 w-4 text-center">{stepIndex + 1}</div>
+                )}
+                {STEPS[stepIndex].label}
+            </TabsTrigger>
+        );
+    };
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className=" w-full p-4">
-                    <div className="flex flex-col items-center mb-5">
-                        <h1 className="text-6xl font-semibold ">Create a <span className="text-primary">New</span> Goal</h1>
-                        <p className="mx-4">Follow the instructions bellow to create a new goal</p>
-                        <div className="w-[900px] mt-6">
-                            <Tabs defaultValue="name-description">
-                                <TabsList className="w-full">
-                                    <TabsTrigger value="name-description"></TabsTrigger>
-                                    <TabsTrigger value="frequency"></TabsTrigger>
-                                    <TabsTrigger value="invite-friend"></TabsTrigger>
+        <Card className="max-w-3xl mx-auto my-8">
+            <CardHeader>
+                <CardTitle className="text-3xl font-bold">Create <span className='text-primary'>New</span> Goal</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <Tabs value={STEPS[currentStep].id} className="w-full">
+                    <TabsList className="grid w-full grid-cols-3 mb-8">
+                        {STEPS.map((_, index) => renderStepTrigger(index))}
+                    </TabsList>
 
-                                </TabsList>
-                                <TabsContent className="flex w-full" value="name-description">
-                                    <Card className="w-1/2">
-                                        <CardHeader className="flex font-bold gap-5">
-                                            <Badge variant='success' className="">1</Badge> My next Goal
-                                        </CardHeader>
-                                        <CardDescription className="ml-10 mb-2"> Set a name and description for your goal</CardDescription>
-                                        <CardContent className="ml-6 pt-2 grid gap-3">
-                                            <FormField
-                                                control={form.control}
-                                                name="name"
-                                                render={({ field }) => (
-                                                    <FormItem className="w-full">
-                                                        {//  <FormLabel className="mx-2 my-1">Set a name for your Goal</FormLabel>
-                                                        }
-                                                        <FormControl>
-                                                            <Input placeholder="Name..." {...field} />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                            <FormField
-                                                control={form.control}
-                                                name="description"
-                                                render={({ field }) => (
-                                                    <FormItem className="w-full">
-                                                        {//<FormLabel className="mx-2 my-1">Add a short description</FormLabel>
-                                                        }
-                                                        <FormControl>
-                                                            <Textarea placeholder="Description..." {...field} />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
+                    <FormProvider {...form}>
+                        <form onSubmit={form.handleSubmit(handleNext)}>
+                            <TabsContent value="step1">
+                                <FirstStep form={form} />
+                            </TabsContent>
 
-                                        </CardContent>
-                                    </Card>
-                                    <Card className="w-1/2 h-full pt-6">
-                                        <div className="flex gap-4">
-                                            <Button variant='primary' className="text-background"> Add<Plus /></Button>
-                                            <div className="flex items-center border rounded-md bg-background">
-                                                <Input className='border-transparent rounded-r-none border-r' placeholder='Find A Tag....' />
-                                                <Search size={20} className="mx-2" />
+                            <TabsContent value="step2">
+                                <ThirdStep form={form} />
+                            </TabsContent>
 
-                                            </div>
-                                        </div>
-                                        <CardContent className="flex gap-3 w-full justify-between items-center" >
-                                            <div className="mr-4 ">
-                                                <Avatar className={cn("size-[100px] border mt-2")}>
-                                                    <AvatarImage
-                                                        src={AVATARS.find(a => a.id === selectedEmojiId)?.url}
-                                                        alt={AVATARS.find(a => a.id === selectedEmojiId)?.label || "Selected Emoji"} />
-                                                    <AvatarFallback>GIF</AvatarFallback>
-                                                </Avatar>
-                                            </div>
-                                            <div className="flex">
-                                                <ToggleGroup
-                                                    type="single"
-                                                    value={selectedEmojiId}
-                                                    onValueChange={(value) => {
-                                                        if (value) {
-                                                            setSelectedEmojiId(value);
-                                                            console.log("Selected emoji ID:", value);
-                                                        }
-                                                    }}
-                                                    className="grid grid-cols-5 grid-rows-2 gap-1"
-                                                >
-                                                    {curatedAvatars.map((avatar) => (
-                                                        <ToggleGroupItem
-                                                            key={avatar.id}
-                                                            value={avatar.id}
-                                                            aria-label={`Select ${avatar.label}`}
-                                                            className="flex items-center justify-center p-1 h-8 w-8 data-[state=on]:bg-primary/20" // Example styling for active state
-                                                        >
-                                                            <img
-                                                                src={avatar.url}
-                                                                alt={avatar.label}
-                                                                className="h-6 w-6 object-contain"
-                                                            />
-                                                        </ToggleGroupItem>
-                                                    ))}
-                                                </ToggleGroup>
-                                            </div>
+                            <TabsContent value="step3">
+                                <SecondStep form={form} />
+                            </TabsContent>
 
-                                        </CardContent>
-
-                                        <CardFooter className="flex justify-end mt-5 ">
-                                            <Button className="text-background" variant='primary'>Next <ChevronRight /></Button>
-                                        </CardFooter>
-                                    </Card>
-
-                                </TabsContent>
-                                <TabsContent value="frequency">
-                                    <Card>
-                                        <div className="flex justify-between">
-                                            <div>
-                                                <CardHeader className="flex gap-5 font-bold">
-                                                    <Badge variant='success'>2</Badge> Set Frequency & Days
-                                                </CardHeader>
-                                                <CardDescription className="ml-10 mb-2">
-                                                    How often and on which days do you want to work on your goal?
-                                                </CardDescription>
-                                            </div>
-                                            <div className="flex">
-                                                <Select value={selectedFrequency} onValueChange={(value: Frequency) => setSelectedFrequency(value)}>
-                                                    <SelectTrigger className="border border-primary">
-                                                        <SelectValue placeholder="Select frequency" />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectGroup>
-                                                            <SelectItem value={Frequency.DAILY}>{Frequency.DAILY}</SelectItem>
-                                                            <SelectItem value={Frequency.WEEKLY}>{Frequency.WEEKLY}</SelectItem>
-                                                            <SelectItem value={Frequency.MONTHLY}>{Frequency.MONTHLY}</SelectItem>
-                                                        </SelectGroup>
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
-                                        </div>
-                                        <CardContent className="grid gap-6">
-
-                                            {selectedFrequency === (Frequency.WEEKLY || Frequency.DAILY) && (
-                                                <div className="flex justify-center">
-                                                    <ToggleGroup
-                                                        type="multiple"
-                                                        value={selectedDays}
-                                                        onValueChange={handleDaysChange}
-                                                        className="flex flex-wrap justify-center items-center border border-primary"
-                                                    >
-                                                        {Object.values(DaysOfWeek).map((day) => (
-                                                            <ToggleGroupItem
-                                                                key={day}
-                                                                value={day} // 'day' is a string, which is correct for ToggleGroupItem
-                                                                aria-label={`Toggle ${day}`}
-                                                                className="h-10 w-10 text-sm font-semibold rounded-md my-1 mx-1
-                                                   data-[state=on]:bg-primary data-[state=on]:text-primary-foreground
-                                                   hover:bg-accent hover:text-accent-foreground flex items-center justify-center"
-                                                            >
-                                                                {DAY_INITIALS[day]}
-                                                            </ToggleGroupItem>
-                                                        ))}
-                                                    </ToggleGroup>
-
-                                                </div>
-                                            )}
-
-                                        </CardContent>
-                                        <CardFooter className="flex justify-end">
-                                            <Button className="text-background" variant='primary'>Next <ChevronRight /></Button>
-                                        </CardFooter>
-                                    </Card>
-                                </TabsContent>
-                            </Tabs>
-                            <Tabs>
-                                <TabsContent value="invite-friend" className="rounded-md min-h-[60vh] p-5">
-                                    <Card variant='secondary'>
-                                        <CardContent >
-                                            <FormField
-                                                control={form.control}
-                                                name="name"
-                                                render={({ field }) => (
-                                                    <FormItem className="w-full">
-                                                        <FormLabel className="mx-2 my-1 text-app-border/70">Set a name for your Goal</FormLabel>
-                                                        <FormControl>
-                                                            <Input placeholder="Name" {...field} />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                        </CardContent>
-                                    </Card>
-                                </TabsContent>
-                            </Tabs>
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </form>
-        </Form >
-    )
+                            {/* Navigation Buttons */}
+                            <div className="flex justify-between mt-8 pt-4 border-t">
+                                {currentStep > 0 && (
+                                    <Button variant="outline" onClick={handlePrevious} type="button">
+                                        Previous
+                                    </Button>
+                                )}
+                                <div className={currentStep === 0 ? "ml-auto" : ""}>
+                                    <Button type="submit">
+                                        {currentStep < STEPS.length - 1 ? "Next" : "Submit"}
+                                    </Button>
+                                </div>
+                            </div>
+                        </form>
+                    </FormProvider>
+                </Tabs>
+            </CardContent>
+        </Card>
+    );
 }
-export default CreateNewGoal;
