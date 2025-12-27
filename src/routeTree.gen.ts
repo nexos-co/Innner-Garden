@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SignUpIndexRouteImport } from './routes/sign-up/index'
+import { Route as SignInIndexRouteImport } from './routes/sign-in/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile'
@@ -36,6 +38,16 @@ const AppRouteRoute = AppRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignUpIndexRoute = SignUpIndexRouteImport.update({
+  id: '/sign-up/',
+  path: '/sign-up/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignInIndexRoute = SignInIndexRouteImport.update({
+  id: '/sign-in/',
+  path: '/sign-in/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
@@ -99,6 +111,8 @@ export interface FileRoutesByFullPath {
   '/dashboard/profile': typeof DashboardProfileRoute
   '/app/': typeof AppIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/sign-in': typeof SignInIndexRoute
+  '/sign-up': typeof SignUpIndexRoute
   '/dashboard/goal/new': typeof DashboardGoalNewRoute
   '/app/friends': typeof AppFriendsIndexRoute
   '/app/goal': typeof AppGoalIndexRoute
@@ -112,6 +126,8 @@ export interface FileRoutesByTo {
   '/dashboard/profile': typeof DashboardProfileRoute
   '/app': typeof AppIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/sign-in': typeof SignInIndexRoute
+  '/sign-up': typeof SignUpIndexRoute
   '/dashboard/goal/new': typeof DashboardGoalNewRoute
   '/app/friends': typeof AppFriendsIndexRoute
   '/app/goal': typeof AppGoalIndexRoute
@@ -128,6 +144,8 @@ export interface FileRoutesById {
   '/dashboard/profile': typeof DashboardProfileRoute
   '/app/': typeof AppIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/sign-in/': typeof SignInIndexRoute
+  '/sign-up/': typeof SignUpIndexRoute
   '/dashboard/goal/new': typeof DashboardGoalNewRoute
   '/app/friends/': typeof AppFriendsIndexRoute
   '/app/goal/': typeof AppGoalIndexRoute
@@ -145,6 +163,8 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/app/'
     | '/dashboard/'
+    | '/sign-in'
+    | '/sign-up'
     | '/dashboard/goal/new'
     | '/app/friends'
     | '/app/goal'
@@ -158,6 +178,8 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/app'
     | '/dashboard'
+    | '/sign-in'
+    | '/sign-up'
     | '/dashboard/goal/new'
     | '/app/friends'
     | '/app/goal'
@@ -173,6 +195,8 @@ export interface FileRouteTypes {
     | '/dashboard/profile'
     | '/app/'
     | '/dashboard/'
+    | '/sign-in/'
+    | '/sign-up/'
     | '/dashboard/goal/new'
     | '/app/friends/'
     | '/app/goal/'
@@ -184,6 +208,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  SignInIndexRoute: typeof SignInIndexRoute
+  SignUpIndexRoute: typeof SignUpIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -207,6 +233,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-up/': {
+      id: '/sign-up/'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-in/': {
+      id: '/sign-in/'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/': {
@@ -326,6 +366,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  SignInIndexRoute: SignInIndexRoute,
+  SignUpIndexRoute: SignUpIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
