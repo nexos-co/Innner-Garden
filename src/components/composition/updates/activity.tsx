@@ -52,7 +52,7 @@ const Activity: FunctionComponent<ActivityProps> = () => {
         </div>
 
         <div className="space-y-3">
-            <div className="flex py-10 flex-col gap-3 border border-dashed border-black/20 rounded-xl  min-h-70 p-4">
+            <div className="flex py-10 flex-col gap-3 border border-dashed border-black/40 rounded-xl  min-h-70 p-4">
                 <div className="flex flex-1 items-center  font-semibold  flex-col gap-1 text-3xl justify-center">
                     <CheckCircle2 size={70} color="var(--color-primary)" />
                     <p className="text-sm opacity-70">1 hour ago</p>

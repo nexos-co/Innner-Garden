@@ -10,29 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
-import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignUpIndexRouteImport } from './routes/sign-up/index'
 import { Route as SignInIndexRouteImport } from './routes/sign-in/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as AppIndexRouteImport } from './routes/app/index'
-import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile'
 import { Route as DashboardInvitesRouteImport } from './routes/dashboard/invites'
-import { Route as AppGoalsRouteImport } from './routes/app/goals'
-import { Route as AppGoalIndexRouteImport } from './routes/app/goal/index'
-import { Route as AppFriendsIndexRouteImport } from './routes/app/friends/index'
-import { Route as DashboardGoalNewRouteImport } from './routes/dashboard/goal/new'
+import { Route as DashboardGoalsIndexRouteImport } from './routes/dashboard/goals/index'
+import { Route as DashboardGoalsNewRouteImport } from './routes/dashboard/goals/new'
 import { Route as DashboardFriendsUpdatesIndexRouteImport } from './routes/dashboard/friends/updates/index'
-import { Route as AppFriendsUpdatesIndexRouteImport } from './routes/app/friends/updates/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppRouteRoute = AppRouteRouteImport.update({
-  id: '/app',
-  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,45 +44,20 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AppIndexRoute = AppIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const DashboardProfileRoute = DashboardProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
 const DashboardInvitesRoute = DashboardInvitesRouteImport.update({
   id: '/invites',
   path: '/invites',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AppGoalsRoute = AppGoalsRouteImport.update({
-  id: '/goals',
-  path: '/goals',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppGoalIndexRoute = AppGoalIndexRouteImport.update({
-  id: '/goal/',
-  path: '/goal/',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppFriendsIndexRoute = AppFriendsIndexRouteImport.update({
-  id: '/friends/',
-  path: '/friends/',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const DashboardGoalNewRoute = DashboardGoalNewRouteImport.update({
-  id: '/goal/new',
-  path: '/goal/new',
+const DashboardGoalsIndexRoute = DashboardGoalsIndexRouteImport.update({
+  id: '/goals/',
+  path: '/goals/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
-const AppFriendsInvitesRoute = AppFriendsInvitesRouteImport.update({
-  id: '/friends/invites',
-  path: '/friends/invites',
-  getParentRoute: () => AppRouteRoute,
+const DashboardGoalsNewRoute = DashboardGoalsNewRouteImport.update({
+  id: '/goals/new',
+  path: '/goals/new',
+  getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardFriendsUpdatesIndexRoute =
   DashboardFriendsUpdatesIndexRouteImport.update({
@@ -101,117 +65,65 @@ const DashboardFriendsUpdatesIndexRoute =
     path: '/friends/updates/',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
-const AppFriendsUpdatesIndexRoute = AppFriendsUpdatesIndexRouteImport.update({
-  id: '/friends/updates/',
-  path: '/friends/updates/',
-  getParentRoute: () => AppRouteRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/app/goals': typeof AppGoalsRoute
   '/dashboard/invites': typeof DashboardInvitesRoute
-  '/dashboard/profile': typeof DashboardProfileRoute
-  '/app/': typeof AppIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/sign-in': typeof SignInIndexRoute
-  '/sign-up': typeof SignUpIndexRoute
-  '/dashboard/goal/new': typeof DashboardGoalNewRoute
-  '/app/friends': typeof AppFriendsIndexRoute
-  '/app/goal': typeof AppGoalIndexRoute
-  '/app/friends/updates': typeof AppFriendsUpdatesIndexRoute
+  '/dashboard/goals/new': typeof DashboardGoalsNewRoute
+  '/dashboard/goals': typeof DashboardGoalsIndexRoute
   '/dashboard/friends/updates': typeof DashboardFriendsUpdatesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app/goals': typeof AppGoalsRoute
   '/dashboard/invites': typeof DashboardInvitesRoute
-  '/dashboard/profile': typeof DashboardProfileRoute
-  '/app': typeof AppIndexRoute
   '/dashboard': typeof DashboardIndexRoute
-  '/sign-in': typeof SignInIndexRoute
-  '/sign-up': typeof SignUpIndexRoute
-  '/dashboard/goal/new': typeof DashboardGoalNewRoute
-  '/app/friends': typeof AppFriendsIndexRoute
-  '/app/goal': typeof AppGoalIndexRoute
-  '/app/friends/updates': typeof AppFriendsUpdatesIndexRoute
+  '/dashboard/goals/new': typeof DashboardGoalsNewRoute
+  '/dashboard/goals': typeof DashboardGoalsIndexRoute
   '/dashboard/friends/updates': typeof DashboardFriendsUpdatesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/app/goals': typeof AppGoalsRoute
   '/dashboard/invites': typeof DashboardInvitesRoute
-  '/dashboard/profile': typeof DashboardProfileRoute
-  '/app/': typeof AppIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/sign-in/': typeof SignInIndexRoute
-  '/sign-up/': typeof SignUpIndexRoute
-  '/dashboard/goal/new': typeof DashboardGoalNewRoute
-  '/app/friends/': typeof AppFriendsIndexRoute
-  '/app/goal/': typeof AppGoalIndexRoute
-  '/app/friends/updates/': typeof AppFriendsUpdatesIndexRoute
+  '/dashboard/goals/new': typeof DashboardGoalsNewRoute
+  '/dashboard/goals/': typeof DashboardGoalsIndexRoute
   '/dashboard/friends/updates/': typeof DashboardFriendsUpdatesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/app'
     | '/dashboard'
-    | '/app/goals'
     | '/dashboard/invites'
-    | '/dashboard/profile'
-    | '/app/'
     | '/dashboard/'
-    | '/sign-in'
-    | '/sign-up'
-    | '/dashboard/goal/new'
-    | '/app/friends'
-    | '/app/goal'
-    | '/app/friends/updates'
+    | '/dashboard/goals/new'
+    | '/dashboard/goals'
     | '/dashboard/friends/updates'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app/goals'
     | '/dashboard/invites'
-    | '/dashboard/profile'
-    | '/app'
     | '/dashboard'
-    | '/sign-in'
-    | '/sign-up'
-    | '/dashboard/goal/new'
-    | '/app/friends'
-    | '/app/goal'
-    | '/app/friends/updates'
+    | '/dashboard/goals/new'
+    | '/dashboard/goals'
     | '/dashboard/friends/updates'
   id:
     | '__root__'
     | '/'
-    | '/app'
     | '/dashboard'
-    | '/app/goals'
     | '/dashboard/invites'
-    | '/dashboard/profile'
-    | '/app/'
     | '/dashboard/'
-    | '/sign-in/'
-    | '/sign-up/'
-    | '/dashboard/goal/new'
-    | '/app/friends/'
-    | '/app/goal/'
-    | '/app/friends/updates/'
+    | '/dashboard/goals/new'
+    | '/dashboard/goals/'
     | '/dashboard/friends/updates/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRouteRoute: typeof AppRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   SignInIndexRoute: typeof SignInIndexRoute
   SignUpIndexRoute: typeof SignUpIndexRoute
@@ -224,13 +136,6 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -261,20 +166,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/app/': {
-      id: '/app/'
-      path: '/'
-      fullPath: '/app/'
-      preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/dashboard/profile': {
-      id: '/dashboard/profile'
-      path: '/profile'
-      fullPath: '/dashboard/profile'
-      preLoaderRoute: typeof DashboardProfileRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
     '/dashboard/invites': {
       id: '/dashboard/invites'
       path: '/invites'
@@ -282,32 +173,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardInvitesRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/app/goals': {
-      id: '/app/goals'
+    '/dashboard/goals/': {
+      id: '/dashboard/goals/'
       path: '/goals'
-      fullPath: '/app/goals'
-      preLoaderRoute: typeof AppGoalsRouteImport
-      parentRoute: typeof AppRouteRoute
+      fullPath: '/dashboard/goals'
+      preLoaderRoute: typeof DashboardGoalsIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
-    '/app/goal/': {
-      id: '/app/goal/'
-      path: '/goal'
-      fullPath: '/app/goal'
-      preLoaderRoute: typeof AppGoalIndexRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/friends/': {
-      id: '/app/friends/'
-      path: '/friends'
-      fullPath: '/app/friends'
-      preLoaderRoute: typeof AppFriendsIndexRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/dashboard/goal/new': {
-      id: '/dashboard/goal/new'
-      path: '/goal/new'
-      fullPath: '/dashboard/goal/new'
-      preLoaderRoute: typeof DashboardGoalNewRouteImport
+    '/dashboard/goals/new': {
+      id: '/dashboard/goals/new'
+      path: '/goals/new'
+      fullPath: '/dashboard/goals/new'
+      preLoaderRoute: typeof DashboardGoalsNewRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/friends/updates/': {
@@ -316,56 +193,16 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/friends/updates'
       preLoaderRoute: typeof DashboardFriendsUpdatesIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
-    }
-    '/app/friends/updates/': {
-      id: '/app/friends/updates/'
-      path: '/friends/updates'
-      fullPath: '/app/friends/updates'
-      preLoaderRoute: typeof AppFriendsUpdatesIndexRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/dashboard/friends/updates/': {
-      id: '/dashboard/friends/updates/'
-      path: '/friends/updates'
-      fullPath: '/dashboard/friends/updates'
-      preLoaderRoute: typeof DashboardFriendsUpdatesIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-    '/app/friends/updates/': {
-      id: '/app/friends/updates/'
-      path: '/friends/updates'
-      fullPath: '/app/friends/updates'
-      preLoaderRoute: typeof AppFriendsUpdatesIndexRouteImport
-      parentRoute: typeof AppRouteRoute
     }
   }
 }
-
-interface AppRouteRouteChildren {
-  AppGoalsRoute: typeof AppGoalsRoute
-  AppIndexRoute: typeof AppIndexRoute
-  AppFriendsIndexRoute: typeof AppFriendsIndexRoute
-  AppGoalIndexRoute: typeof AppGoalIndexRoute
-  AppFriendsUpdatesIndexRoute: typeof AppFriendsUpdatesIndexRoute
-}
-
-const AppRouteRouteChildren: AppRouteRouteChildren = {
-  AppGoalsRoute: AppGoalsRoute,
-  AppIndexRoute: AppIndexRoute,
-  AppFriendsIndexRoute: AppFriendsIndexRoute,
-  AppGoalIndexRoute: AppGoalIndexRoute,
-  AppFriendsUpdatesIndexRoute: AppFriendsUpdatesIndexRoute,
-}
-
-const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
-  AppRouteRouteChildren,
-)
 
 interface DashboardRouteRouteChildren {
   DashboardInvitesRoute: typeof DashboardInvitesRoute
   DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
-  DashboardGoalNewRoute: typeof DashboardGoalNewRoute
+  DashboardGoalsNewRoute: typeof DashboardGoalsNewRoute
+  DashboardGoalsIndexRoute: typeof DashboardGoalsIndexRoute
   DashboardFriendsUpdatesIndexRoute: typeof DashboardFriendsUpdatesIndexRoute
 }
 
@@ -373,7 +210,8 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardInvitesRoute: DashboardInvitesRoute,
   DashboardProfileRoute: DashboardProfileRoute,
   DashboardIndexRoute: DashboardIndexRoute,
-  DashboardGoalNewRoute: DashboardGoalNewRoute,
+  DashboardGoalsNewRoute: DashboardGoalsNewRoute,
+  DashboardGoalsIndexRoute: DashboardGoalsIndexRoute,
   DashboardFriendsUpdatesIndexRoute: DashboardFriendsUpdatesIndexRoute,
 }
 
@@ -383,7 +221,6 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRouteRoute: AppRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   SignInIndexRoute: SignInIndexRoute,
   SignUpIndexRoute: SignUpIndexRoute,
