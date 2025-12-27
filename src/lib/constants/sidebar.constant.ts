@@ -1,4 +1,4 @@
-import { Blocks, BookmarkPlus, ClockAlert, Home, LucideListTodo, PieChart, Users, Users2, type LucideIcon } from "lucide-react";
+import { Blocks, BookmarkPlus, ClockAlert, Home, LucideListTodo, LucideUser2, PieChart, Users, Users2, type LucideIcon } from "lucide-react";
 
 export interface SidebarCollection {
     name: string,
