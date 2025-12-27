@@ -14,7 +14,7 @@ function RouteComponent() {
     <SplitScreen className='h-[93vh]'>
       <Sidebar />
 
-      <div className="h-[93vh] flex-1  max-w-[1400px] overflow-y-auto">
+      <div className="h-[93vh] flex-1  overflow-y-auto">
         <Outlet />
       </div>
     </SplitScreen>

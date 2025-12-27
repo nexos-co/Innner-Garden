@@ -12,6 +12,7 @@ export interface Goal {
   streak: number;
   createdAt: string;
   dueDate: string;
+  completion: number;
 }
 
 const categories: Goal["category"][] = [
@@ -57,6 +58,7 @@ export const generateGoalsMock = (countDaily = 2, countWeekly = 5): Goal[] => {
     streak: Math.floor(Math.random() * 30) + 1,
     createdAt: new Date(now - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
     dueDate: new Date(now + 24 * 60 * 60 * 1000).toISOString(),
+    completion: Math.floor(Math.random() * 101),
   }));
 
   const weekly = Array.from({ length: countWeekly }).map((_, i) => ({
@@ -69,6 +71,7 @@ export const generateGoalsMock = (countDaily = 2, countWeekly = 5): Goal[] => {
     streak: Math.floor(Math.random() * 12) + 1,
     createdAt: new Date(now - Math.random() * 60 * 24 * 60 * 60 * 1000).toISOString(),
     dueDate: new Date(now + 7 * 24 * 60 * 60 * 1000).toISOString(),
+    completion: Math.floor(Math.random() * 101),
   }));
 
   return [...daily, ...weekly].sort(

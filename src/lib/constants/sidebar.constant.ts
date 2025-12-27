@@ -11,18 +11,25 @@ export const sidebarLinks: SidebarCollection[] = [
         name: 'Home',
         icon: Home,
         url: '/dashboard'
-    },  
+    },
     {
         name: 'Garden',
         icon: Blocks,
-        url: '/garden/',
+        url: '/dashboard/garden/',
     },
     {
         name: 'Goals',
         icon: PieChart,
         url: '/dashboard/goals'
     },
+    {
+        name: 'New Goal',
+        icon: BookmarkPlus,
+        url: '/dashboard/goals/new'
+    }
+]
 
+export const topBarLinks = [
     {
         name: "Friends",
         icon: Users,
@@ -31,16 +38,13 @@ export const sidebarLinks: SidebarCollection[] = [
     {
         name: "Updates",
         icon: ClockAlert,
-        url: '/dashboard/friends/updates'
+        url: '/dashboard/friends/updates',
+        updates: 10,
     },
     {
         name: 'Invites',
         icon: LucideListTodo,
-        url: '/dashboard/invites'
+        url: '/dashboard/invites',
+        updates: 2,
     },
-    {
-        name: 'New Goal',
-        icon: BookmarkPlus,
-        url: '/dashboard/goal/new'
-    }
 ]

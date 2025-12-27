@@ -2,6 +2,7 @@ import CircularProgress from '@/components/atoms/circular-progress'
 import GoalPreview from '@/components/atoms/goal-preview'
 import TextSeparator from '@/components/atoms/text-separator'
 import Notification from '@/components/composition/dashboard/notifications'
+import FadeContainer from '@/components/layouts/fade-container'
 import SplitScreen from '@/components/layouts/split-screen'
 import { goalsData } from '@/data/mock-goals'
 import { createFileRoute } from '@tanstack/react-router'
@@ -14,7 +15,8 @@ function RouteComponent() {
   const todayGoals = goalsData.filter(goal => goal.frequency === 'daily');
   const weeklyGoals = goalsData.filter(goal => goal.frequency === 'weekly');
 
-  return <SplitScreen className='h-full'>
+  return <FadeContainer>
+    <SplitScreen className='h-full'>
 
     <div className="flex-1 p-5 space-y-5">
 
@@ -50,4 +52,5 @@ function RouteComponent() {
       <Notification />
     </div>
   </SplitScreen>
+  </FadeContainer>
 }
